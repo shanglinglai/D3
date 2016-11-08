@@ -11,7 +11,7 @@ var parseTime = d3.timeParse("%d-%b-%y");
 d3.csv("./stocks.csv", 
 	function(data)
 	{
-		data.forEach(
+		data.ForEach(
 			function(d)
 			{
 				d.date = parseTime(d.date);
