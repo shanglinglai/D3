@@ -3,26 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <script src="https://d3js.org/d3.v4.min.js"></script>
+  <style>
+  .line{
+  	fill:none;
+  }
+  </style>
   <title>Document</title>
 </head>
 <body>
 <script type="text/javascript">
+var height=600;
+var width=800;
 var parseTime = d3.timeParse("%d-%b-%y");
 d3.csv("./stocks.csv", 
 	function(data)
 	{
-		data.ForEach(
+		data.forEach(
 			function(d)
 			{
 				d.date = parseTime(d.date);
 				d.close = +d.close;
 			}
 		);
-		var ctrl=d3.select("body").
-      append("svg").attr("width",800).attr("height",600)
+		var ctrl=d3.select("body").append("svg").attr("width",800).attr("height",600);
+      var x=d3.scaleTime().range([0,width]);
+      var y=d3.saleLinear().range([height,0]);
+      var valueline=d3.line().
+      x(
+      	function(d)
+      	{
+      		return x(d.date);
+      	}).
+      y(
+      	function(d)
+      	{
+      		returm y(d.close);
+      	});
+      ctrl.append("path").
+      data([data]).
+      attr("class","line").
+      attr("d",valueline);
 	}
 );
-
 </script>
 </body>
 </html>
